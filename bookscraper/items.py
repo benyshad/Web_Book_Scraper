@@ -17,7 +17,6 @@ class BookscraperItem(scrapy.Item):
     num_reviews = scrapy.Field()
     stars = scrapy.Field()
     category = scrapy.Field()
-    description = scrapy.Field()
     price = scrapy.Field()
 
 

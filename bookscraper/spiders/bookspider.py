@@ -10,11 +10,11 @@ class BookspiderSpider(scrapy.Spider):
         books = response.css('article.product_pod')
 
         for book in books:
-            yield{
-                'name' : book.css('h3 a::text').get(),
-                'price' : book.css('.product_price .price_color::text').get(),
-                'url' : book.css('h3 a::attr(href)').get()
-            }
+            # yield{
+            #     'name' : book.css('h3 a::text').get(),
+            #     'price' : book.css('.product_price .price_color::text').get(),
+            #     'url' : book.css('h3 a::attr(href)').get()
+            # }
             book_url = book.css('h3 a::attr(href)').get()
             if 'catalogue/' in book_url:
                 book_page_url = 'https://books.toscrape.com/' + book_url
@@ -38,7 +38,6 @@ class BookspiderSpider(scrapy.Spider):
         book_item['url'] = response.url,
         book_item['category'] = book_page.xpath("//li[@class='active']/preceding-sibling::li[1]/a/text()").get(),
         book_item['price'] = book_page.css('p.price_color::text').get(),
-        book_item['description'] = book_page.xpath("//div[@id='product_description']/following-sibling::p/text()").get(),
         book_item['upc'] = book_page.xpath("//table/tr[1]/td/text()").get(),
         book_item['product_type'] = book_page.xpath("//table/tr[2]/td/text()").get(),
         book_item['tax'] = book_page.xpath("//table/tr[5]/td/text()").get(),
