@@ -1,2 +1,4 @@
 playground.py
 results.json
+.env
+activate_enviorment.sh
