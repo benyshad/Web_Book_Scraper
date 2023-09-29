@@ -6,6 +6,10 @@ class BookspiderSpider(scrapy.Spider):
     allowed_domains = ["books.toscrape.com"]
     start_urls = ["https://books.toscrape.com"]
 
+    # custom_settings = {
+    #     'FEEDS': { 'data.jsonl': { 'format': 'jsonlines',}}
+    #     }
+
     def parse(self, response):
         books = response.css('article.product_pod')
 
@@ -20,15 +24,16 @@ class BookspiderSpider(scrapy.Spider):
                 book_page_url = 'https://books.toscrape.com/' + book_url
             else:
                 book_page_url = 'https://books.toscrape.com/catalogue/' + book_url
-            yield response.follow(book_page_url, self.parse_book_page)
+            if book_page_url == 'https://books.toscrape.com/catalogue/libertarianism-for-beginners_982/index.html' or book_page_url == 'https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html':
+                yield response.follow(book_page_url, self.parse_book_page)
 
-        next_page = response.css('li.next a::attr(href)').get()
-        if next is not None:
-            if 'catalogue/' in next_page:
-                next_page_url = 'https://books.toscrape.com/' + next_page
-            else:
-                next_page_url = 'https://books.toscrape.com/catalogue/' + next_page
-        yield response.follow(next_page_url, callback=self.parse)
+        # next_page = response.css('li.next a::attr(href)').get()
+        # if next is not None:
+        #     if 'catalogue/' in next_page:
+        #         next_page_url = 'https://books.toscrape.com/' + next_page
+        #     else:
+        #         next_page_url = 'https://books.toscrape.com/catalogue/' + next_page
+        # yield response.follow(next_page_url, callback=self.parse)
 
     def parse_book_page(self, response):
         book_page = response.css('div.page_inner')
