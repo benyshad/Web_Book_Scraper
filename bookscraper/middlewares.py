@@ -5,6 +5,10 @@
 
 from scrapy import signals
 
+from urllib.parse import urlencode
+from random import randint
+import requests
+
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
@@ -102,10 +106,6 @@ class BookscraperDownloaderMiddleware:
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
 
-
-from urllib.parse import urlencode
-from random import randint
-import requests
 
 class ScrapeOpsFakeBrowserHeaderAgentMiddleware:
 
